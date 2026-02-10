@@ -1,0 +1,27 @@
+version: "3"
+
+
+services:
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    volumes:
+      - ./src:/src/
+    env_file: .env
+    depends_on:
+      - redis
+
+  clock:
+    build:
+      context: .
+      dockerfile: Dockerfile.clock
+    volumes:
+      - ./src:/src/
+    env_file: .env
+    depends_on:
+      - worker
+
+  redis:
+    image: redis:alpine
